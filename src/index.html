@@ -3,11 +3,23 @@
 
 <head>
   <meta charset="utf-8">
-  <title>DayOfMyLife</title>
+  <title>Day of My Life</title>
   <base href="/">
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1"
+  >
+  <!--
+    Default policy for the client-rendered shell. The landing page overrides this
+    with `index,follow` through SeoService; `/setup` and `/report` stay `noindex`.
+  -->
+  <meta
+    name="robots"
+    content="noindex"
+  >
+  <meta
+    name="theme-color"
+    content="#fffbff"
   >
   <link
     rel="icon"
@@ -16,7 +28,7 @@
   >
 </head>
 
-<body class="mat-typography">
+<body>
   <app-root></app-root>
 </body>
 

@@ -1,6 +1,16 @@
 # DayOfMyLife
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.4.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) and is built with:
+
+- **Angular 22** — standalone components, zoneless change detection and the `@angular/build` application builder.
+- **Tailwind CSS v4** — configured through `@tailwindcss/postcss` (`.postcssrc.json`).
+- **[@sandlada/material-design-css](https://material-design-css.sandlada.com)** — Material Design 3 design tokens (colors, typography, shape, spacing, motion). Light/dark mode is toggled with the `dark` attribute on the document root.
+- **[@sandlada/mdc](https://mdc.sandlada.com)** — Material 3 Expressive web components. Used where a component replaces hand-rolled UI, e.g. `app-calendar` wraps the `mdc-date-picker` custom element.
+- **Vitest** — unit tests run through the `@angular/build:unit-test` builder.
+
+There is no Angular Material, `@material/web` or `@angular/cdk` dependency; the UI is composed from the self-built components under `src/app/components`. Where a component from `@sandlada/mdc` is used instead, it sits behind an Angular wrapper in that same folder so consumers still talk to Angular APIs.
+
+The app uses Angular hybrid rendering: the landing page (`/`) is prerendered to static HTML at build time for SEO (`outputMode: "static"`), while `/setup` and `/report` are rendered in the browser. Shared code is organised under `src/app` as `components/`, `models/`, `pages/`, `layouts/`, `states/`, `routers/`, `guards/` and `services/`.
 
 ## Development server
 
@@ -16,7 +26,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `ng test` to execute the unit tests via [Vitest](https://vitest.dev/).
 
 ## Running end-to-end tests
 

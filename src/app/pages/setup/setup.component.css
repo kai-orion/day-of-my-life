@@ -1,0 +1,121 @@
+:host {
+    align-items: center;
+    background: var(--md-sys-color-surface);
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    min-height: 100dvh;
+    padding: 48px 24px;
+}
+
+.flow {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    width: min(100%, 440px);
+}
+
+.wordmark {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.question {
+    color: var(--md-sys-color-on-surface);
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 40px;
+    margin: 0;
+    text-wrap: balance;
+}
+
+.supporting {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 16px;
+    line-height: 24px;
+    margin: 12px 0 0;
+    max-width: 60ch;
+}
+
+.step-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.control {
+    display: block;
+    margin-top: 32px;
+}
+
+.field-label {
+    color: var(--md-sys-color-on-surface);
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin: 20px 0 8px;
+}
+
+.control > .field-label:first-child {
+    margin-top: 0;
+}
+
+select,
+input[type='number'] {
+    background: var(--md-sys-color-surface-container-lowest);
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: 12px;
+    box-sizing: border-box;
+    color: var(--md-sys-color-on-surface);
+    font-family: inherit;
+    font-size: 16px;
+    height: 56px;
+    padding: 0 16px;
+    width: 100%;
+}
+
+select:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--md-sys-color-primary);
+    outline-offset: 1px;
+}
+
+.hint {
+    color: var(--md-sys-color-on-surface-variant);
+    display: block;
+    font-size: 12px;
+    line-height: 18px;
+    margin-top: 8px;
+}
+
+.error {
+    color: var(--md-sys-color-error);
+    display: block;
+    font-size: 12px;
+    line-height: 18px;
+    margin-top: 8px;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 40px;
+}
+
+.actions:has(:only-child) {
+    justify-content: flex-end;
+}
+
+@media (max-width: 480px) {
+    :host {
+        padding: 40px 20px;
+    }
+
+    .question {
+        font-size: 28px;
+        line-height: 36px;
+    }
+}

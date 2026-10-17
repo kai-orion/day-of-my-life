@@ -1,9 +1,18 @@
-@import "@angular/material/prebuilt-themes/indigo-pink.css";
-@import url("material-symbols/outlined.css");
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Material Design 3 design tokens provided by @sandlada/material-design-css */
+@import "@sandlada/material-design-css/preset.css";
+@import "@sandlada/material-design-css/prebuilt-colors/tonal-spot/h120-2025.css";
+@import "@sandlada/material-design-css/color/tw.css";
+@import "@sandlada/material-design-css/typography/tw.css";
+@import "@sandlada/material-design-css/shape/tw.css";
+@import "@sandlada/material-design-css/space/tw.css";
+@import "@sandlada/material-design-css/motion/tw.css";
+
+/* Material Symbols icon font */
+@import "material-symbols/outlined.css";
+
+@source "../src";
 
 html,
 body {
@@ -13,4 +22,22 @@ body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
 }
+
+/*
+ * Categorical palette for data visualisation only. The UI chrome stays on the
+ * Material Design color roles, but a monochrome theme makes adjacent slices of
+ * a chart indistinguishable, so charts get their own hues. Values follow the
+ * active `color-scheme`, so they adapt to light/dark automatically.
+ */
+:root {
+    --chart-series-1: light-dark(#3f6a1e, #a9d182);
+    --chart-series-2: light-dark(#8a5a00, #e3b65e);
+    --chart-series-3: light-dark(#00696d, #52bcc0);
+    --chart-series-4: light-dark(#a63a2b, #f0917c);
+    --chart-series-5: light-dark(#3a5ca8, #9db4ff);
+    --chart-series-6: light-dark(#76528a, #cba7d8);
+}
+

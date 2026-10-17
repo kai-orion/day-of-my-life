@@ -1,0 +1,38 @@
+<div class="field">
+  <label for="life-birthday">Date of birth</label>
+  <input
+    id="life-birthday"
+    type="date"
+    [formField]="settingsForm.birthday"
+  />
+  @for (error of settingsForm.birthday().errors(); track error.kind) {
+    <span class="error">{{ error.message }}</span>
+  }
+</div>
+
+<div class="field">
+  <label for="life-country">Base life expectancy on a country</label>
+  <select
+    id="life-country"
+    [formField]="settingsForm.countryCode"
+    (change)="onCountryChange($any($event.target).value)"
+  >
+    <option [value]="customCountryCode">Custom</option>
+    @for (country of countries; track country.code) {
+      <option [value]="country.code">{{ country.name }} · {{ country.lifeExpectancy }}</option>
+    }
+  </select>
+  <span class="hint">World average · {{ worldAverage }} years</span>
+</div>
+
+<div class="field">
+  <label for="life-lifespan">Expected lifespan (years)</label>
+  <input
+    id="life-lifespan"
+    type="number"
+    [formField]="settingsForm.lifespanYears"
+  />
+  @for (error of settingsForm.lifespanYears().errors(); track error.kind) {
+    <span class="error">{{ error.message }}</span>
+  }
+</div>

@@ -1,0 +1,143 @@
+<header class="site-header">
+  <a
+    class="brand"
+    routerLink="/"
+    >Day of my life</a
+  >
+  <nav
+    class="site-nav"
+    aria-label="Primary"
+  >
+    <a routerLink="/report">My report</a>
+    <a
+      class="nav-cta"
+      routerLink="/setup"
+      >Start</a
+    >
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <p class="eyebrow">Subjective life report</p>
+    <h1>See your life as days lived, not candles on a cake.</h1>
+    <p class="lead">
+      Day of My Life turns your birth date and expected lifespan into a clear, honest report: how
+      many days you have lived, how many are likely left, and why the later years keep feeling
+      shorter.
+    </p>
+    <div class="hero-actions">
+      <a
+        class="button"
+        routerLink="/setup"
+        >Build my report</a
+      >
+      <a
+        class="button button--text"
+        href="#how-it-works"
+        >How it works</a
+      >
+    </div>
+    <p class="hero-note">Free. No account. Nothing leaves your device.</p>
+  </section>
+
+  <section
+    class="section"
+    id="why"
+  >
+    <h2>Why a year feels shorter at every birthday</h2>
+    <p>
+      A year at five is a fifth of everything you have ever known. A year at fifty is a fiftieth.
+      The calendar counts time evenly; memory does not. Psychologists have described this for more
+      than a century as proportional, logarithmic perception — and it is why the first two decades
+      of life feel enormous while the decades after forty blur together.
+    </p>
+    <p>
+      Day of My Life models that curve. It weights each stage of life — early childhood, school,
+      working life, retirement — and integrates a logarithmic density to build a subjective
+      timeline that runs fast where life feels slow, and slow where life feels fast.
+    </p>
+  </section>
+
+  <section
+    class="section"
+    id="how-it-works"
+  >
+    <h2>How it works</h2>
+    <ol class="steps">
+      @for (step of steps; track step.title; let index = $index) {
+        <li class="step">
+          <span class="step-index">{{ index + 1 }}</span>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.body }}</p>
+        </li>
+      }
+    </ol>
+  </section>
+
+  <section
+    class="section"
+    id="report"
+  >
+    <h2>What is inside your report</h2>
+    <ul class="highlights">
+      @for (highlight of highlights; track highlight.title) {
+        <li class="highlight">
+          <h3>{{ highlight.title }}</h3>
+          <p>{{ highlight.body }}</p>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <section
+    class="section"
+    id="privacy"
+  >
+    <h2>Private by design</h2>
+    <p>
+      Your birth date never leaves your browser. Day of My Life has no accounts, no uploads and no
+      tracking of the values you enter. Your settings live in your own browser storage, and clearing
+      them takes a single click.
+    </p>
+  </section>
+
+  <section
+    class="section"
+    id="faq"
+  >
+    <h2>Frequently asked questions</h2>
+    <div class="faq-list">
+      @for (faq of faqs; track faq.question) {
+        <details class="faq">
+          <summary>{{ faq.question }}</summary>
+          <p>{{ faq.answer }}</p>
+        </details>
+      }
+    </div>
+  </section>
+
+  <section class="cta-final">
+    <h2>Curious how far along you really are?</h2>
+    <p>It takes about twenty seconds, and nothing is sent anywhere.</p>
+    <a
+      class="button"
+      routerLink="/setup"
+      >Build my report</a
+    >
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p class="footer-note">
+    Day of My Life is a reflective estimate, not a medical or actuarial prediction.
+  </p>
+  <nav
+    class="footer-nav"
+    aria-label="Footer"
+  >
+    <a routerLink="/">Home</a>
+    <a routerLink="/setup">Start</a>
+    <a routerLink="/report">Report</a>
+  </nav>
+</footer>

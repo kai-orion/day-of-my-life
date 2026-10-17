@@ -1,0 +1,95 @@
+<div class="flow">
+  <span class="wordmark">Day of my life</span>
+
+  <app-stepper #stepper>
+    <app-step label="Welcome">
+      <div class="step-body">
+        <h1 class="question">Start with two numbers.</h1>
+        <p class="supporting">
+          Your birth date and how long you expect to live. Everything stays on this
+          device — nothing is uploaded.
+        </p>
+        <div class="actions">
+          <app-button (click)="stepper.next()">Let's start</app-button>
+        </div>
+      </div>
+    </app-step>
+
+    <app-step label="Birthday">
+      <div class="step-body">
+        <h1 class="question">When were you born?</h1>
+        <p class="supporting">This anchors every number you'll see.</p>
+
+        <app-card class="control">
+          <app-calendar [(selected)]="birthday" />
+        </app-card>
+
+        <div class="actions">
+          <app-button
+            variant="text"
+            (click)="stepper.previous()"
+            >Back</app-button
+          >
+          <app-button
+            [disabled]="birthday() === ''"
+            (click)="stepper.next()"
+            >Next</app-button
+          >
+        </div>
+      </div>
+    </app-step>
+
+    <app-step label="Lifespan">
+      <div class="step-body">
+        <h1 class="question">How long will you live?</h1>
+        <p class="supporting">Start from a country average, or set your own.</p>
+
+        <div class="control">
+          <label
+            class="field-label"
+            for="welcome-country"
+            >Country</label
+          >
+          <select
+            id="welcome-country"
+            [formField]="lifespanForm.countryCode"
+            (change)="onCountryChange($any($event.target).value)"
+          >
+            <option value="">Custom</option>
+            @for (country of countries; track country.code) {
+              <option [value]="country.code">{{ country.name }} · {{ country.lifeExpectancy }}</option>
+            }
+          </select>
+
+          <label
+            class="field-label"
+            for="welcome-lifespan"
+            >Expected lifespan (years)</label
+          >
+          <input
+            id="welcome-lifespan"
+            type="number"
+            [formField]="lifespanForm.lifespanYears"
+          />
+          <span class="hint">World average · {{ worldAverage }} years</span>
+          @for (error of lifespanForm.lifespanYears().errors(); track error.kind) {
+            <span class="error">{{ error.message }}</span>
+          }
+        </div>
+
+        <div class="actions">
+          <app-button
+            variant="text"
+            (click)="stepper.previous()"
+            >Back</app-button
+          >
+          <app-button
+            [disabled]="!canFinish()"
+            (click)="done()"
+            >Done</app-button
+          >
+        </div>
+      </div>
+    </app-step>
+  </app-stepper>
+</div>

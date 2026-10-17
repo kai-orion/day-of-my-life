@@ -1,0 +1,44 @@
+<div
+  class="backdrop"
+  (click)="closed.emit()"
+></div>
+
+<aside
+  class="panel"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Life settings"
+>
+  <header class="panel-header">
+    <h2 class="title-medium">Life settings</h2>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close settings"
+      (click)="closed.emit()"
+    >
+      <app-icon>close</app-icon>
+    </button>
+  </header>
+
+  <div class="panel-body">
+    <app-life-settings-form
+      [birthday]="birthday()"
+      [lifespanYears]="lifespanYears()"
+      [countryCode]="countryCode()"
+    />
+  </div>
+
+  <footer class="panel-footer">
+    <app-button
+      variant="text"
+      (click)="closed.emit()"
+      >Cancel</app-button
+    >
+    <app-button
+      [disabled]="!isValid()"
+      (click)="save()"
+      >Save</app-button
+    >
+  </footer>
+</aside>

@@ -1,0 +1,10 @@
+<ul class="block-grid">
+  @for (filled of blocks(); track $index) {
+    <li
+      class="block-unit"
+      [class.filled]="filled"
+      [style.width.px]="blockSize()"
+      [style.height.px]="blockSize()"
+    ></li>
+  }
+</ul>

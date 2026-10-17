@@ -1,0 +1,45 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+label {
+    color: var(--md-sys-color-on-surface);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+input,
+select {
+    height: 48px;
+    padding: 0 14px;
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: 12px;
+    background: var(--md-sys-color-surface-container-lowest);
+    color: var(--md-sys-color-on-surface);
+    font-size: 15px;
+    font-family: inherit;
+}
+
+input:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--md-sys-color-primary);
+    outline-offset: 1px;
+}
+
+.hint {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 12px;
+}
+
+.error {
+    color: var(--md-sys-color-error);
+    font-size: 12px;
+}

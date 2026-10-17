@@ -1,0 +1,405 @@
+@let r = report();
+
+<header class="report-header">
+  <div class="report-heading">
+    <p class="eyebrow">Subjective life report</p>
+    <h1 class="report-title">Day of my life</h1>
+    <p class="report-meta">
+      Born {{ r.summary.birthday }} · expected lifespan {{ r.summary.lifespanYears }} years · generated
+      {{ r.generatedAt }}
+    </p>
+  </div>
+  <app-button
+    variant="outlined"
+    (click)="settingsOpen.set(true)"
+  >
+    <app-icon [size]="18">tune</app-icon>
+    Settings
+  </app-button>
+</header>
+
+<section class="part">
+  <div class="section-head">
+    <h2 class="section-title">Executive summary</h2>
+    <span class="section-tag">{{ r.summary.country?.name ?? 'Custom lifespan' }}</span>
+  </div>
+  <p class="section-lead">
+    You have lived <strong>{{ r.summary.livedDays | number }}</strong> days and have
+    <strong>{{ r.summary.remainingDays | number }}</strong> left of an expected
+    <strong>{{ r.summary.totalDays | number }}</strong>-day life. On the subjective clock that is
+    <strong>{{ asPercent(r.progress.perceivedFraction) | number: '1.0-0' }}%</strong> already spent —
+    the felt equivalent of being
+    <strong>{{ r.summary.perceivedAgeYears | number: '1.1-1' }}</strong> years old.
+  </p>
+
+  <dl class="kpi-grid">
+    <div class="kpi">
+      <dt class="kpi-label">Chronological age</dt>
+      <dd class="kpi-value">
+        {{ r.summary.ageYears | number: '1.1-1' }}<span class="kpi-unit">yrs</span>
+      </dd>
+    </div>
+    <div class="kpi">
+      <dt class="kpi-label">Perceived age</dt>
+      <dd class="kpi-value">
+        {{ r.summary.perceivedAgeYears | number: '1.1-1' }}<span class="kpi-unit">yrs</span>
+      </dd>
+    </div>
+    <div class="kpi">
+      <dt class="kpi-label">Expected lifespan</dt>
+      <dd class="kpi-value">
+        {{ r.summary.lifespanYears | number: '1.0-1' }}<span class="kpi-unit">yrs</span>
+      </dd>
+    </div>
+    <div class="kpi">
+      <dt class="kpi-label">Expected end</dt>
+      <dd class="kpi-value kpi-value--date">{{ r.summary.expectedEndDate }}</dd>
+    </div>
+    <div class="kpi">
+      <dt class="kpi-label">Days lived</dt>
+      <dd class="kpi-value">{{ r.summary.livedDays | number }}</dd>
+    </div>
+    <div class="kpi">
+      <dt class="kpi-label">Days remaining</dt>
+      <dd class="kpi-value">{{ r.summary.remainingDays | number }}</dd>
+    </div>
+  </dl>
+
+  <div class="progress-stack">
+    <div class="progress-row">
+      <div class="progress-caption">
+        <span>Chronological progress</span>
+        <span>{{ asPercent(r.progress.chronologicalFraction) | number: '1.0-0' }}%</span>
+      </div>
+      <app-progress
+        [min]="0"
+        [max]="100"
+        [value]="asPercent(r.progress.chronologicalFraction)"
+      />
+    </div>
+    <div class="progress-row">
+      <div class="progress-caption">
+        <span>Perceived progress</span>
+        <span>{{ asPercent(r.progress.perceivedFraction) | number: '1.0-0' }}%</span>
+      </div>
+      <app-progress
+        class="perceived"
+        [min]="0"
+        [max]="100"
+        [value]="asPercent(r.progress.perceivedFraction)"
+        [style.--progress-indicator]="'var(--md-sys-color-tertiary)'"
+        [style.--progress-track]="'var(--md-sys-color-tertiary-container)'"
+      />
+    </div>
+  </div>
+  <p class="caption">
+    Chronological progress counts calendar time; perceived progress weights it by how long each
+    stage feels. The gap between the two bars is the model's core claim — later years pass faster.
+  </p>
+</section>
+
+<section class="part">
+  <h2 class="section-title">Life in numbers</h2>
+  <p class="section-lead">
+    The same expected life expressed in units you can picture. Counts are population estimates for
+    the configured lifespan, not guarantees.
+  </p>
+  <div class="split-layout">
+    <div class="split-chart">
+      <app-donut-chart
+        [segments]="livedRemainingSegments()"
+        [centerValue]="r.summary.remainingDays.toLocaleString()"
+        centerCaption="days left"
+        ariaLabel="Lived versus remaining days"
+      />
+    </div>
+    <div class="split-main">
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th scope="col">Unit</th>
+              <th scope="col" class="num">Lived</th>
+              <th scope="col" class="num">Remaining</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of r.counts; track item.id) {
+              <tr>
+                <th scope="row">{{ item.label }}</th>
+                <td class="num">{{ item.lived | number: item.digits }}</td>
+                <td class="num">{{ item.remaining | number: item.digits }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="part">
+  <h2 class="section-title">Life stages</h2>
+  <p class="section-lead">
+    The model splits life into four weighted stages. The intensity multiplier scales how slowly each
+    stage feels; the share column shows how much of your felt life each stage holds. Stage ages are
+    model defaults — country-specific education and retirement ages appear under Milestones.
+  </p>
+  <div class="split-layout">
+    <div class="split-chart">
+      <app-pie-chart
+        [segments]="stageSlices()"
+        ariaLabel="Share of felt life by stage"
+      />
+    </div>
+    <div class="split-main">
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th scope="col">Stage</th>
+              <th scope="col">Ages</th>
+              <th scope="col" class="num">Intensity</th>
+              <th scope="col" class="num">Felt share</th>
+              <th scope="col">Progress</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (stage of r.stages; track stage.id) {
+              <tr [class.is-current]="stage.status === 'current'">
+                <th scope="row">{{ stage.label }}</th>
+                <td>{{ stage.startAge | number: '1.0-0' }}–{{ stage.endAge | number: '1.0-0' }}</td>
+                <td class="num">×{{ stage.weight | number: '1.0-2' }}</td>
+                <td class="num">{{ asPercent(stage.perceivedShare) | number: '1.0-0' }}%</td>
+                <td>
+                  <div class="mini-bar-cell">
+                    <div class="mini-bar">
+                      <span [style.width.%]="asPercent(stage.elapsedFraction)"></span>
+                    </div>
+                    <span class="mini-bar-label">{{ asPercent(stage.elapsedFraction) | number: '1.0-0' }}%</span>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="milestone-notes">
+    <p class="caption">
+      Chronological midpoint: age {{ r.progress.chronologicalMidpointAge | number: '1.0-1' }} ·
+      perceived midpoint: age {{ r.progress.perceivedMidpointAge | number: '1.0-1' }}. You feel
+      roughly {{ r.progress.perceivedLeadYears | number: '1.0-1' }} years further along than the
+      calendar suggests.
+    </p>
+  </div>
+</section>
+
+<section class="part">
+  <h2 class="section-title">Perceived life in familiar periods</h2>
+  <p class="section-lead">
+    Because time runs faster with age, your remaining life is worth fewer “felt” school periods than
+    the calendar implies. Each unit below is one memorable stretch of life.
+  </p>
+  <app-bar-chart
+    [items]="familiarPeriodBars()"
+    ariaLabel="Lived and remaining school-length periods"
+  />
+  <p class="caption">
+    The filled part of each bar is the felt life already spent in that kind of period; the track is
+    what remains.
+  </p>
+</section>
+
+<section class="part">
+  <h2 class="section-title">Milestones</h2>
+  <p class="section-lead">
+    Dated markers between today and the expected end of life. Education, retirement and family nodes
+    follow {{ r.summary.country?.name ?? 'the default' }} population averages, while the felt midpoint
+    marks where your subjective life crosses halfway.
+  </p>
+  <div class="milestone-legend">
+    <span class="milestone-legend-item cat-life"><i class="milestone-swatch"></i>Life</span>
+    <span class="milestone-legend-item cat-education"><i class="milestone-swatch"></i>Education &amp; work</span>
+    <span class="milestone-legend-item cat-family"><i class="milestone-swatch"></i>Family · average</span>
+  </div>
+  <ol class="timeline">
+    @for (milestone of r.milestones; track milestone.id) {
+      <li
+        class="timeline-item"
+        [class.is-past]="milestone.status === 'past'"
+        [class.cat-life]="milestone.category === 'life'"
+        [class.cat-education]="milestone.category === 'education'"
+        [class.cat-family]="milestone.category === 'family'"
+      >
+        <span class="timeline-dot"></span>
+        <div class="timeline-body">
+          <div class="timeline-head">
+            <span class="timeline-label">{{ milestone.label }}</span>
+            <span class="timeline-age">age {{ milestone.age | number: '1.0-1' }}</span>
+          </div>
+          <p class="timeline-note">{{ milestone.note }}</p>
+          <div class="timeline-meta">
+            <span class="timeline-cat">{{ categoryLabel(milestone.category) }}</span>
+            <span>{{ milestone.date }}</span>
+            <span>{{ daysAwayLabel(milestone.daysAway) }}</span>
+          </div>
+        </div>
+      </li>
+    }
+  </ol>
+</section>
+
+<section class="part">
+  <h2 class="section-title">How you compare</h2>
+  <p class="section-lead">
+    Your expected lifespan and your current age against reference life expectancies. You sit at or
+    above <strong>{{ asPercent(r.percentileRank) | number: '1.0-0' }}%</strong> of the countries
+    tracked here.
+  </p>
+  <div class="compare-grid">
+    <div class="compare-chart">
+      <h3 class="compare-title">Against your expected lifespan</h3>
+      <app-diverging-bar-chart
+        [items]="comparisonItems()"
+        [center]="userLifespan()"
+        [centerLabel]="userLifespanLabel()"
+        ariaLabel="Reference life expectancies compared with your expected lifespan"
+      />
+    </div>
+    <div class="compare-chart">
+      <h3 class="compare-title">Against your current age</h3>
+      <app-diverging-bar-chart
+        [items]="comparisonItems()"
+        [center]="userAge()"
+        [centerLabel]="userAgeLabel()"
+        ariaLabel="Reference life expectancies compared with your current age"
+      />
+    </div>
+  </div>
+  <p class="caption">
+    Each bar is a reference life expectancy. The <strong>expected-lifespan</strong> chart centers on
+    your configured lifespan, so bars split left (shorter) and right (longer). The
+    <strong>current-age</strong> chart centers on your age today, so the bars show the expected years
+    each reference has beyond now.
+  </p>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th scope="col">Reference</th>
+          <th scope="col" class="num">Years</th>
+          <th scope="col" class="num">Difference</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (comparison of r.comparisons; track comparison.id) {
+          <tr>
+            <th scope="row">{{ comparison.label }}</th>
+            <td class="num">{{ comparison.referenceYears | number: '1.1-1' }}</td>
+            <td
+              class="num"
+              [class.is-above]="comparison.status === 'above'"
+              [class.is-below]="comparison.status === 'below'"
+            >
+              {{ comparison.status === 'above' ? '+' : '' }}{{ comparison.deltaYears | number: '1.1-1' }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="part">
+  <h2 class="section-title">Your life coordinate</h2>
+  <p class="section-lead">
+    Chronological age runs along the floor; the height of the curve is the <strong>perceived</strong>
+    life lived so far. Each dot is a country's average life expectancy.
+  </p>
+  @defer (on viewport) {
+    <app-life-chart
+      [age]="r.summary.ageYears"
+      [lifespan]="r.summary.lifespanYears"
+      [countryCode]="r.summary.country?.code ?? ''"
+    />
+  } @placeholder {
+    <div class="chart-placeholder">Preparing your life coordinate…</div>
+  }
+  <p class="caption">Drag to orbit. Your marker is labelled “You”.</p>
+</section>
+
+<section class="part">
+  <h2 class="section-title">Your days</h2>
+  <p class="section-lead">
+    Every block is a single day of your life, one row per year. The lit days are behind you; the
+    quiet ones are still ahead. A beam marks today.
+  </p>
+  @defer (on viewport) {
+    <app-days-field
+      [livedDays]="r.summary.livedDays"
+      [totalDays]="r.summary.totalDays"
+    />
+  } @placeholder {
+    <div class="chart-placeholder">Plotting your days…</div>
+  }
+  <p class="caption">
+    Drag to orbit the field. {{ r.summary.livedDays | number }} lit blocks out of
+    {{ r.summary.totalDays | number }}.
+  </p>
+</section>
+
+<details class="part methodology">
+  <summary class="methodology-summary">
+    <span class="section-title">Methodology &amp; sources</span>
+    <app-icon>expand_more</app-icon>
+  </summary>
+  <div class="methodology-body">
+    <p class="section-lead">
+      Perceived time combines a logarithmic age density (density ∝ 1 / (age + offset)) with a weight
+      per life stage. The density is integrated on a {{ r.methodology.step }}-year grid up to age
+      {{ r.methodology.scaleMaxAge }} to produce the cumulative curve used throughout this report.
+    </p>
+    <div class="table-wrap">
+      <table class="data-table is-compact">
+        <thead>
+          <tr>
+            <th scope="col">Stage</th>
+            <th scope="col" class="num">Ages</th>
+            <th scope="col" class="num">Weight</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (stage of r.methodology.stages; track stage.id) {
+            <tr>
+              <th scope="row">{{ stage.label }}</th>
+              <td class="num">{{ stage.startAge }}–{{ stage.endAge }}</td>
+              <td class="num">×{{ stage.weight }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="methodology-line"><strong>Log offset:</strong> {{ r.methodology.offset }}.</p>
+    <ul class="methodology-sources">
+      @for (source of r.methodology.dataSources; track source) {
+        <li>{{ source }}</li>
+      }
+    </ul>
+    <p class="disclaimer">{{ r.methodology.disclaimer }}</p>
+  </div>
+</details>
+
+<div class="fixed-icon-button">
+  <app-fab
+    variant="primary"
+    (click)="theme.toggle()"
+  >
+    <app-icon>{{ theme.isDark() ? 'light_mode' : 'dark_mode' }}</app-icon>
+  </app-fab>
+</div>
+
+@if (settingsOpen()) {
+  <app-settings-panel (closed)="settingsOpen.set(false)" />
+}

@@ -1,0 +1,343 @@
+:host {
+    display: block;
+    color: var(--md-sys-color-on-surface);
+}
+
+.site-header,
+main,
+.site-footer {
+    box-sizing: border-box;
+    margin-inline: auto;
+    max-width: 1040px;
+    padding-inline: 24px;
+    width: 100%;
+}
+
+/* Header ------------------------------------------------------------------ */
+
+.site-header {
+    align-items: center;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    padding-block: 20px;
+}
+
+.brand {
+    color: var(--md-sys-color-on-surface);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+}
+
+.site-nav {
+    align-items: center;
+    display: flex;
+    gap: 8px 20px;
+}
+
+.site-nav a {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.site-nav a:hover {
+    color: var(--md-sys-color-on-surface);
+}
+
+.nav-cta {
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: 999px;
+    color: var(--md-sys-color-primary);
+    padding: 8px 18px;
+}
+
+.nav-cta:hover {
+    background: var(--md-sys-color-surface-container);
+    color: var(--md-sys-color-primary);
+}
+
+/* Hero -------------------------------------------------------------------- */
+
+.hero {
+    padding-block: 72px 56px;
+}
+
+.eyebrow {
+    color: var(--md-sys-color-primary);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin: 0 0 12px;
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    font-size: 48px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 56px;
+    margin: 0;
+    max-width: 20ch;
+    text-wrap: balance;
+}
+
+.lead {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 18px;
+    line-height: 28px;
+    margin: 20px 0 0;
+    max-width: 68ch;
+}
+
+.hero-actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.hero-note {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 13px;
+    margin: 16px 0 0;
+}
+
+.button {
+    align-items: center;
+    background: var(--md-sys-color-primary);
+    border-radius: 999px;
+    color: var(--md-sys-color-on-primary);
+    display: inline-flex;
+    font-size: 15px;
+    font-weight: 500;
+    height: 48px;
+    justify-content: center;
+    padding-inline: 28px;
+    text-decoration: none;
+    transition: opacity 160ms ease;
+}
+
+.button:hover {
+    opacity: 0.9;
+}
+
+.button--text {
+    background: transparent;
+    border: 1px solid var(--md-sys-color-outline);
+    color: var(--md-sys-color-primary);
+    padding-inline: 22px;
+}
+
+/* Sections ---------------------------------------------------------------- */
+
+.section {
+    border-top: 1px solid var(--md-sys-color-outline-variant);
+    padding-block: 48px;
+}
+
+.section h2 {
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 36px;
+    margin: 0 0 20px;
+}
+
+.section p {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 16px;
+    line-height: 26px;
+    margin: 0 0 16px;
+    max-width: 72ch;
+}
+
+.section p:last-child {
+    margin-bottom: 0;
+}
+
+/* Steps ------------------------------------------------------------------- */
+
+.steps {
+    counter-reset: step;
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.step {
+    background: var(--md-sys-color-surface-container-low);
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: 20px;
+    padding: 24px;
+}
+
+.step-index {
+    align-items: center;
+    background: var(--md-sys-color-primary-container);
+    border-radius: 50%;
+    color: var(--md-sys-color-on-primary-container);
+    display: inline-flex;
+    font-size: 14px;
+    font-weight: 600;
+    height: 32px;
+    justify-content: center;
+    width: 32px;
+}
+
+.step h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 16px 0 8px;
+}
+
+.step p {
+    font-size: 15px;
+    line-height: 24px;
+    margin: 0;
+}
+
+/* Highlights -------------------------------------------------------------- */
+
+.highlights {
+    display: grid;
+    gap: 20px 32px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.highlight h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 6px;
+}
+
+.highlight p {
+    font-size: 14px;
+    line-height: 22px;
+    margin: 0;
+}
+
+/* FAQ --------------------------------------------------------------------- */
+
+.faq-list {
+    display: grid;
+    gap: 8px;
+}
+
+.faq {
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: 16px;
+    padding: 0 20px;
+}
+
+.faq summary {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    list-style: none;
+    padding-block: 18px;
+}
+
+.faq summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq[open] summary {
+    padding-bottom: 6px;
+}
+
+.faq p {
+    font-size: 15px;
+    line-height: 24px;
+    margin: 0 0 18px;
+}
+
+/* Final call to action ---------------------------------------------------- */
+
+.cta-final {
+    background: var(--md-sys-color-surface-container);
+    border-radius: 28px;
+    margin-block: 24px 48px;
+    padding: 48px;
+    text-align: center;
+}
+
+.cta-final h2 {
+    font-size: 26px;
+    font-weight: 400;
+    margin: 0 0 12px;
+}
+
+.cta-final p {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 16px;
+    margin: 0 0 24px;
+}
+
+/* Footer ------------------------------------------------------------------ */
+
+.site-footer {
+    align-items: center;
+    border-top: 1px solid var(--md-sys-color-outline-variant);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    justify-content: space-between;
+    padding-block: 32px;
+}
+
+.footer-note {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 13px;
+    line-height: 20px;
+    margin: 0;
+    max-width: 60ch;
+}
+
+.footer-nav {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-nav a {
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.footer-nav a:hover {
+    color: var(--md-sys-color-on-surface);
+}
+
+@media (max-width: 760px) {
+    .hero {
+        padding-block: 48px 40px;
+    }
+
+    .hero h1 {
+        font-size: 34px;
+        line-height: 42px;
+    }
+
+    .lead {
+        font-size: 16px;
+        line-height: 26px;
+    }
+
+    .steps,
+    .highlights {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cta-final {
+        padding: 32px 24px;
+    }
+}

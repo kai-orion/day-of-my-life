@@ -1,0 +1,8 @@
+# Day of My Life — only the landing page is meant to be indexed.
+User-agent: *
+Allow: /
+Disallow: /setup
+Disallow: /report
+
+# Add an absolute sitemap URL once the production origin is known, e.g.
+# Sitemap: https://example.com/sitemap.xml
